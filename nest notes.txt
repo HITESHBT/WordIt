@@ -1,0 +1,43 @@
+three things to note in nest js
+1) module
+2) controller
+3) service
+each module conatins one contoller and more than one service
+controller-defining all the apis related to the module(api routes--..)
+service-backend-database connection-happens throgh service not directly through controller
+service work flow--->   
+                        user--->controller--->service
+                        service--->controller--->user
+oops concept
+1 service defined in one module when defined in other module a new instance/pbject of the servuce gets created which we would like to avoid
+function defined in a service, now the function needs to be called in two or more modules so for that we create a global service in the app file itself so that
+only one instance of the service is created.
+
+@Query: you dint neccesarily need to define the params of the url, the client can hit it without neccesarily hitting the params
+
+@Param: you need to define the parameter in each call. 
+The key value pair is shown in url when @Query is used this is not shown in the use case of @Param.
+
+@Body=> used only in post, put methods. Nothing in the url is shown. It is used to parse data huge in size.
+
+postgres://hiteshsharmakolkata:5FvRJkDV7fwy@ep-noisy-field-84793365.ap-southeast-1.aws.neon.tech/neondb
+
+ENTTITIES:-
+primarygenerated column-uuid
+
+every entity should have a primary key.
+
+if 2 primary columns exist we ave to use @unique decorator;
+
+relations
+one to one-- one of the entities have to write join column;
+
+we can describe object relation too
+In all foreign keys we have to use {onDelete:'CASCADE'}
+
+with cascade:true we can store the data of called table in the current table;
+
+many to one
+one to many-for every one to many we hae to define many to one;
+
+many to many
