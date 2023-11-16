@@ -18,10 +18,7 @@ export class BlogDetailed{
     blogs:Blog;
     @OneToMany(()=>Comment,(comment)=>comment.blogs)
     comment:Comment[];
-    @OneToMany(()=>Media,(obj)=>obj.blog_detail)
-    @JoinColumn({name:"media_id",referencedColumnName:'media_id'})
-    media:Media[];
-    @OneToMany(()=>Media,(obj)=>obj.blog_details)
+    @OneToMany(()=>Media,(obj)=>obj.blog_details,{cascade:true})
     medias:Media[];
     @ManyToMany(()=>Tag,(obj)=>obj.blog_detail)
     tags:Tag[];

@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { user } from "./user.entity";
 import { Connections } from "./connections.entity";
+import { AbstractEntity } from "src/common_entities/abstract.entity";
 
 @Entity()
-export class Profile
+export class Profile extends AbstractEntity<Profile>
 {
     @PrimaryColumn('uuid')
     user_id:string;
