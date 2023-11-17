@@ -41,3 +41,7 @@ many to one
 one to many-for every one to many we hae to define many to one;
 
 many to many
+
+foreign key me kabi eager:true mat lagana jaa pe ondelete:'cascade' likhte hai///bug hai dhyan rakhna hai
+eager:true matlab jab data call kar rahe to relation define karke children tables ko bhi call karna hota par agar relation
+define karte waqt eager:true likhdo to findone karte waqt where ke bad relation define karne ki zarurat nahi

@@ -23,6 +23,6 @@ export class user extends AbstractEntity<user>{
     profile:Profile;
     @OneToMany(()=>Comment,(obj)=>obj.user)
     comments:Comment[];
-    @OneToOne(()=>Media,{cascade:true})
+    @OneToOne(()=>Media,(obj)=>obj.userss,{cascade:true,eager:true})
     media_one:Media;
 }

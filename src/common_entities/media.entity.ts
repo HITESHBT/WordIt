@@ -16,7 +16,7 @@ export class Media extends AbstractEntity<Media>{
     image_url:string;
     @Column()
     media_type:string;
-    @OneToOne(()=>user,{onDelete:'CASCADE'})
+    @OneToOne(()=>user,(obj)=>obj.media_one,{onDelete:'CASCADE'})
     @JoinColumn({name:'user_id',referencedColumnName:'user_id'})
     userss:user;
     @ManyToOne(()=>BlogDetailed,(obj)=>obj.medias,{onDelete:'CASCADE'})

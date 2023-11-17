@@ -9,6 +9,9 @@ import { Profile } from "./entity/profile.entity";
 import { MediaType } from "src/common_entities/mediaType.entity";
 import { Media } from "src/common_entities/media.entity";
 import { DeleteUserDto } from "./dto/deleteUser.dto";
+import { Connections } from "./entity/connections.entity";
+import { CreateConnectionDto } from "./dto/createConnection.dto";
+import { GetProfileDto } from "./dto/getProfile.dto";
 
 @Injectable()
 export class UserService {
@@ -16,6 +19,7 @@ export class UserService {
         @InjectRepository(user) private userRepo: Repository<user>,
         @InjectRepository(MediaType) private mtypeRepo: Repository<MediaType>,
         @InjectRepository(Profile) private profileRepo: Repository<Profile>,
+        @InjectRepository(Connections) private connectionsRepo: Repository<Connections>,
     ) {
 
     }
@@ -63,6 +67,60 @@ export class UserService {
         await this.credentialRepository.remove(obj);
         return "deleted successfully";
     }
-
-
+    async createConnection(connect:CreateConnectionDto){
+        const user1=await this.credentialRepository.findOne({"where":{
+            user_id:connect.followed_by_id,access_key:connect.followed_by_access_id
+        }});
+        const user2=await this.credentialRepository.findOne({"where":{
+            user_id:connect.followed_to_id
+        }});
+        if(user1===null||user2===null)
+        {
+            throw new HttpException('Invalid request',HttpStatus.BAD_REQUEST);
+        }
+        const findConnection=await this.connectionsRepo.findOne({"where":{
+            followedby_id:connect.followed_by_id,followedto_id:connect.followed_to_id
+        }});
+        if(findConnection===null)
+        {
+            const temp=new Connections({'followedby_id':connect.followed_by_id,'followedto_id':connect.followed_to_id});
+            await this.updateFollow(connect.followed_by_id,connect.followed_to_id,true);
+            await this.connectionsRepo.save(temp);
+            return 'follow successfull';
+        }
+        else
+        {
+            await this.connectionsRepo.delete(findConnection);
+            await this.updateFollow(connect.followed_by_id,connect.followed_to_id,false);
+            return 'unfollow successful';
+        }
+        
+    }
+    async updateFollow(followed_by_id:string,followed_to_id:string,flag:boolean)
+    {
+        const fbyP=await this.profileRepo.findOne({"where":{
+            user_id:followed_by_id
+        }})
+        const ftoP=await this.profileRepo.findOne({"where":{
+            user_id:followed_to_id
+        }})
+        if(flag)
+        {
+            fbyP.following_no+=1;
+            ftoP.follower_no+=1;
+        }
+        else
+        {
+            fbyP.following_no-=1;
+            ftoP.follower_no-=1;
+        }
+        await this.profileRepo.save(fbyP);
+        await this.profileRepo.save(ftoP);
+    }
+    async getProfile(obj:string){
+        const profile1=await this.profileRepo.findOne({"where":{
+            user_id:obj
+        },relations:["users"]})
+        return profile1;
+    }
 }

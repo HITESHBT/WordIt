@@ -1,4 +1,3 @@
-export class DeleteUserDto{
-    user_id:string;
-    access_key:string;
+import { UsersCredsDto } from "src/common_dto/user_creds.dto";
+export class DeleteUserDto extends UsersCredsDto{
 }

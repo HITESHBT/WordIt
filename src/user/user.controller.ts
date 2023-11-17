@@ -4,6 +4,8 @@ import { CreateUserDto } from "./dto/createUser.dto";
 import { UserService } from "./user.service";
 import { CreateUserProfileDto } from "./dto/createUserProfile.dto";
 import { DeleteUserDto } from "./dto/deleteUser.dto";
+import { CreateConnectionDto } from "./dto/createConnection.dto";
+import { GetProfileDto } from "./dto/getProfile.dto";
 
 @Controller('user')
 export class UserController{
@@ -26,5 +28,13 @@ export class UserController{
     async deleteUser(@Query() del:DeleteUserDto){
         return await this.user_service.deleteUser(del);
     }
-
+    @Post('follow')
+    async createConnection(@Body() connect:CreateConnectionDto){
+        return await this.user_service.createConnection(connect);
+    }
+    @Get('profile/:user_id')
+    async getProfile(@Param("user_id") user_id:string){
+        return await this.user_service.getProfile(user_id);
+    }
+    
 }
