@@ -4,5 +4,4 @@ export class CreateUserProfileDto extends UsersCredsDto{
     user_name:string;
     description:string;
     image_url:string;
-
 }

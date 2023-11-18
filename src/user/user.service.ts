@@ -12,6 +12,8 @@ import { DeleteUserDto } from "./dto/deleteUser.dto";
 import { Connections } from "./entity/connections.entity";
 import { CreateConnectionDto } from "./dto/createConnection.dto";
 import { GetProfileDto } from "./dto/getProfile.dto";
+import {instanceToPlain} from "class-transformer";
+import { ObjectMappingDTO } from "./dto/objectMapping.dto";
 
 @Injectable()
 export class UserService {
@@ -42,7 +44,8 @@ export class UserService {
             throw new HttpException('Go to sign-up page', HttpStatus.BAD_GATEWAY);
         }
         if (user.password === userLI.password) {
-            return user;
+
+            return instanceToPlain(user);
         }
         else {
             throw new HttpException('Incorrect credentials', HttpStatus.FORBIDDEN);
@@ -122,5 +125,29 @@ export class UserService {
             user_id:obj
         },relations:["users"]})
         return profile1;
+    }
+    async getFollow(user_id:string)
+    {
+        const ar=await this.connectionsRepo.find({'where':{followedto_id:user_id}})
+        return ar;
+    }
+    async getFollowing(user_id:string)
+    {
+        const ar=await this.connectionsRepo.find({'where':{followedby_id:user_id}})
+        return ar;
+    }
+    async updateProfile(userUP:CreateUserProfileDto)
+    {
+        const user=await this.profileRepo.findOne({"where":{
+            user_id:userUP.user_id 
+        },relations:["users"]})
+        // Object.assign(user,{"description":userUP.description})
+        if(userUP.description!=="")
+        user.description=userUP.description;
+        if(userUP.image_url!=="")
+        user.users.media_one.image_url=userUP.image_url;
+        if(userUP.user_name!==undefined)
+        user.users.user_name=userUP.user_name;
+        return await this.profileRepo.save(user);
     }
 }

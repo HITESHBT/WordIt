@@ -6,6 +6,7 @@ import { CreateUserProfileDto } from "./dto/createUserProfile.dto";
 import { DeleteUserDto } from "./dto/deleteUser.dto";
 import { CreateConnectionDto } from "./dto/createConnection.dto";
 import { GetProfileDto } from "./dto/getProfile.dto";
+import { ObjectMappingDTO } from "./dto/objectMapping.dto";
 
 @Controller('user')
 export class UserController{
@@ -36,5 +37,16 @@ export class UserController{
     async getProfile(@Param("user_id") user_id:string){
         return await this.user_service.getProfile(user_id);
     }
-    
+    @Get('follower_list/:user_id')
+    async getFollowers(@Param("user_id") user_id:string){
+        return await this.user_service.getFollow(user_id);
+    }
+    @Get('following_list/:user_id')
+    async getFollowing(@Param("user_id") user_id:string){
+        return await this.user_service.getFollowing(user_id);
+    }
+    @Post('update_profile')
+    async updateProfile(@Body() obj:CreateUserProfileDto){
+        return await this.user_service.updateProfile(obj);
+    }
 }

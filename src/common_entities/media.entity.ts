@@ -3,12 +3,13 @@ import { MediaType } from "./mediaType.entity";
 import { user } from "src/user/entity/user.entity";
 import { BlogDetailed } from "src/blog/entity/blogDetail.entity";
 import { AbstractEntity } from "./abstract.entity";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class Media extends AbstractEntity<Media>{
     @PrimaryGeneratedColumn('uuid')
     media_id:string;
-    @Column('uuid',{nullable:true})
+    @Column('uuid',{nullable:true}) @Exclude()
     user_id:string;
     @Column('uuid',{nullable:true})
     blog_id:string;
