@@ -9,7 +9,7 @@ import { Exclude } from "class-transformer";
 export class Media extends AbstractEntity<Media>{
     @PrimaryGeneratedColumn('uuid')
     media_id:string;
-    @Column('uuid',{nullable:true}) @Exclude()
+    @Column('uuid',{nullable:true})
     user_id:string;
     @Column('uuid',{nullable:true})
     blog_id:string;
@@ -20,7 +20,7 @@ export class Media extends AbstractEntity<Media>{
     @OneToOne(()=>user,(obj)=>obj.media_one,{onDelete:'CASCADE'})
     @JoinColumn({name:'user_id',referencedColumnName:'user_id'})
     userss:user;
-    @ManyToOne(()=>BlogDetailed,(obj)=>obj.medias,{onDelete:'CASCADE'})
+    @OneToOne(()=>BlogDetailed,(obj)=>obj.medias,{onDelete:'CASCADE'})
     @JoinColumn({name:'blog_id',referencedColumnName:'blog_id'})
     blog_details:BlogDetailed;
 }

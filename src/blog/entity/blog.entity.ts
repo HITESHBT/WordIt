@@ -2,9 +2,10 @@ import { user } from "src/user/entity/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BlogDetailed } from "./blogDetail.entity";
 import { Like } from "./likes.entity";
+import { AbstractEntity } from "src/common_entities/abstract.entity";
 
 @Entity()
-export class Blog{
+export class Blog extends AbstractEntity<Blog>{
     @PrimaryGeneratedColumn('uuid')
     blog_id:string
     @Column()
@@ -14,7 +15,8 @@ export class Blog{
     @ManyToOne(()=>user,(person)=>person.blog,{onDelete:'CASCADE'})
     @JoinColumn({name:'user_id',referencedColumnName:'user_id'})
     user:user;
-    @OneToOne(()=>BlogDetailed)
+    @OneToOne(()=>BlogDetailed,(obj)=>obj.blogs,{onDelete:"CASCADE"},)
+    @JoinColumn({name:'blog_id',referencedColumnName:'blog_id'})
     blog_detail:BlogDetailed;
     @OneToMany(()=>Like,(obj)=>obj.blog_id)
     likes:Like[];

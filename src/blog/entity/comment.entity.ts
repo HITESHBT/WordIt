@@ -12,7 +12,7 @@ export class Comment{
     blog_id:string;
     @Column()
     user_id:string;
-    @ManyToOne(()=>BlogDetailed,(blog)=>blog.blog_id,{onDelete:'CASCADE'})
+    @ManyToOne(()=>BlogDetailed,(blog)=>blog.comment,{onDelete:'CASCADE'})
     @JoinColumn({name:'blog_id',referencedColumnName:'blog_id'})
     blogs:BlogDetailed;
     @ManyToOne(()=>user,(obj)=>obj.comments,{onDelete:'CASCADE'})

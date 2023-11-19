@@ -10,12 +10,13 @@ import { Comment } from "./entity/comment.entity";
 import { Like } from "./entity/likes.entity";
 import { Media } from "src/common_entities/media.entity";
 import { MediaType } from "src/common_entities/mediaType.entity";
+import { Credential } from "src/user/entity/credential.entity";
 
 @Module(
     {
         providers:[BlogService],
         controllers:[BlogController],
-        imports:[TypeOrmModule.forFeature([Blog,BlogDetailed,Comment,Like,Media,MediaType])]
+        imports:[TypeOrmModule.forFeature([Blog,BlogDetailed,Comment,Like,Media,MediaType,Credential])]
     }
 )
 export class BlogModule{}

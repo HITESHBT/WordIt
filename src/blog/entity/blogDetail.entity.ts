@@ -1,25 +1,23 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Blog } from "./blog.entity";
 import { Comment } from "./comment.entity";
 import { Like } from "./likes.entity";
 import { Media } from "src/common_entities/media.entity";
 import { Tag } from "./tag.entity";
+import { AbstractEntity } from "src/common_entities/abstract.entity";
 
 @Entity()
-export class BlogDetailed{
-    @PrimaryColumn('uuid')
+export class BlogDetailed extends AbstractEntity<BlogDetailed>{
+    @PrimaryGeneratedColumn('uuid')
     blog_id:string;
     @Column()
     blog_content:string;
-    @Column('uuid')
-    media_id:string;
-    @OneToOne(()=>Blog,{onDelete:"CASCADE"})
-    @JoinColumn({name:'blog_id',referencedColumnName:'blog_id'})
+    @OneToOne(()=>Blog,(obj)=>obj.blog_detail,{cascade:true})
     blogs:Blog;
-    @OneToMany(()=>Comment,(comment)=>comment.blogs)
+    @OneToMany(()=>Comment,(comment)=>comment.blogs,{cascade:true})
     comment:Comment[];
-    @OneToMany(()=>Media,(obj)=>obj.blog_details,{cascade:true})
-    medias:Media[];
+    @OneToOne(()=>Media,(obj)=>obj.blog_details,{cascade:true})
+    medias:Media;
     @ManyToMany(()=>Tag,(obj)=>obj.blog_detail)
     tags:Tag[];
 }

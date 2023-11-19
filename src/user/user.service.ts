@@ -56,7 +56,7 @@ export class UserService {
         if (use === null) {
             throw new HttpException('Invalid user', HttpStatus.FORBIDDEN);
         }
-        const newProfile = new Profile({ 'user_id': userPC.user_id, 'description': userPC.description, "users": new user({ "user_id": userPC.user_id, "user_name": userPC.user_name, "media_one": new Media({ 'image_url': userPC.image_url, 'media_type':'profile',"user_id":userPC.user_id }) }) });
+        const newProfile = new Profile({ 'user_id': userPC.user_id, 'description': userPC.description, "users": new user({ "user_id": userPC.user_id, "user_name": userPC.user_name, "media_one": new Media({ 'image_url': userPC.image_url, 'media_type':'profile'}) }) });
         return await this.profileRepo.save(newProfile);
 
     }
