@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BlogDetailed } from "./blogDetail.entity";
 import { user } from "src/user/entity/user.entity";
+import { AbstractEntity } from "src/common_entities/abstract.entity";
 
 @Entity()
-export class Comment{
+export class Comment extends AbstractEntity<Comment>{
     @PrimaryGeneratedColumn('uuid')
     comment_id:string;
     @Column()

@@ -124,6 +124,9 @@ export class UserService {
         const profile1=await this.profileRepo.findOne({"where":{
             user_id:obj
         },relations:["users"]})
+        if(profile1===null){
+            throw new HttpException("Profile not created for this user",HttpStatus.FORBIDDEN)
+        }
         return profile1;
     }
     async getFollow(user_id:string)
@@ -141,6 +144,10 @@ export class UserService {
         const user=await this.profileRepo.findOne({"where":{
             user_id:userUP.user_id 
         },relations:["users"]})
+        if(user===null)
+        {
+            throw new HttpException("Profile not created for this user",HttpStatus.FORBIDDEN)
+        }
         // Object.assign(user,{"description":userUP.description})
         if(userUP.description!=="")
         user.description=userUP.description;

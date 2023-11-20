@@ -18,6 +18,6 @@ export class Blog extends AbstractEntity<Blog>{
     @OneToOne(()=>BlogDetailed,(obj)=>obj.blogs,{onDelete:"CASCADE"},)
     @JoinColumn({name:'blog_id',referencedColumnName:'blog_id'})
     blog_detail:BlogDetailed;
-    @OneToMany(()=>Like,(obj)=>obj.blog_id)
+    @OneToMany(()=>Like,(obj)=>obj.blog)
     likes:Like[];
 }

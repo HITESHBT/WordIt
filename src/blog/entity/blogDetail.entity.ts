@@ -16,7 +16,7 @@ export class BlogDetailed extends AbstractEntity<BlogDetailed>{
     blogs:Blog;
     @OneToMany(()=>Comment,(comment)=>comment.blogs,{cascade:true})
     comment:Comment[];
-    @OneToOne(()=>Media,(obj)=>obj.blog_details,{cascade:true})
+    @OneToOne(()=>Media,(obj)=>obj.blog_details,{eager:true})
     medias:Media;
     @ManyToMany(()=>Tag,(obj)=>obj.blog_detail)
     tags:Tag[];

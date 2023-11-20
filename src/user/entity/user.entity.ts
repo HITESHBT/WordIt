@@ -7,6 +7,7 @@ import { Blog } from "src/blog/entity/blog.entity";
 import { Comment } from "src/blog/entity/comment.entity";
 import { Media } from "src/common_entities/media.entity";
 import { AbstractEntity } from "src/common_entities/abstract.entity";
+import { Like } from "src/blog/entity/likes.entity";
 
 @Entity()
 export class user extends AbstractEntity<user>{
@@ -25,4 +26,6 @@ export class user extends AbstractEntity<user>{
     comments:Comment[];
     @OneToOne(()=>Media,(obj)=>obj.userss,{cascade:true,eager:true})
     media_one:Media;
+    @OneToMany(()=>Like,(obj)=>obj.user)
+    like:Like[];
 }
