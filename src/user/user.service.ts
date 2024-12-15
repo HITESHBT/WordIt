@@ -14,9 +14,11 @@ import { CreateConnectionDto } from "./dto/createConnection.dto";
 import { GetProfileDto } from "./dto/getProfile.dto";
 import {instanceToPlain} from "class-transformer";
 import { ObjectMappingDTO } from "./dto/objectMapping.dto";
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
+    private readonly logger = new Logger(UserService.name);
     constructor(@InjectRepository(Credential) private credentialRepository: Repository<Credential>,
         @InjectRepository(user) private userRepo: Repository<user>,
         @InjectRepository(MediaType) private mtypeRepo: Repository<MediaType>,
@@ -24,6 +26,12 @@ export class UserService {
         @InjectRepository(Connections) private connectionsRepo: Repository<Connections>,
     ) {
 
+    }
+    async getalluser()
+    {
+        const us=await this.userRepo.find();
+        this.logger.log(`The list of user is here ${us}`);
+        return us;
     }
     async signup(userSU: CreateUserDto) {
 
@@ -124,6 +132,8 @@ export class UserService {
         const profile1=await this.profileRepo.findOne({"where":{
             user_id:obj
         },relations:["users"]})
+        const prs=JSON.stringify(profile1);
+        this.logger.log(`hello here ${prs}`);
         if(profile1===null){
             throw new HttpException("Profile not created for this user",HttpStatus.FORBIDDEN)
         }

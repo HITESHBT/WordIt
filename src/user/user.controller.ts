@@ -25,6 +25,10 @@ export class UserController{
     async createProfile(@Body() getP:CreateUserProfileDto){
         return await this.user_service.createUser(getP);
     }
+    @Get('all_user')
+    async getalluser(){
+        return await this.user_service.getalluser();
+    }
     @Delete('delete')
     async deleteUser(@Query() del:DeleteUserDto){
         return await this.user_service.deleteUser(del);
